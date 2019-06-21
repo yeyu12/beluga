@@ -1,0 +1,56 @@
+[{
+        "icon": "iconfont el-beluga-home",
+        "name": "首页",
+        "index": "/"
+    },
+    {
+        "icon": "iconfont el-beluga-peizhi",
+        "name": "中央配置",
+        "data": [{
+            "name": "中心配置",
+            "index": "/configuration"
+        }, {
+            "name": "节点配置",
+            "index": "/nodeConf"
+        }, {
+            "name": "节点管理",
+            "index": "/node"
+        }]
+    },
+    {
+        "icon": "iconfont el-beluga-duilie",
+        "name": "队列",
+        "data": [{
+            "name": "首页",
+            "index": "/quque"
+        }]
+    },
+    {
+        "icon": "iconfont el-beluga-timing",
+        "name": "定时任务",
+        "data": [{
+            "name": "首页",
+            "index": "/cron"
+        }]
+    },
+    {
+        "icon": "iconfont el-beluga-xitong",
+        "name": "系统管理",
+        "data": [{
+            "name": "账号管理",
+            "index": "/user"
+        }, {
+            "name": "账号角色",
+            "index": "/sys"
+        }, {
+            "name": "ETCD服务",
+            "index": "/etcd"
+        }, {
+            "name": "系统信息",
+            "index": "/sys"
+        },{
+            "name": "操作记录",
+            "index": "/operationLog"
+        }]
+    }
+]

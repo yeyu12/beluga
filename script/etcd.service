@@ -1,0 +1,15 @@
+[Unit]
+Description=etcd
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Restart=always
+Type=simple
+PIDFile=/run/etcd.pid
+ExecStart=/media/lingyi/f3d28f57-7566-43d5-b674-85af6324eab4/lost+found/go/bin/etcd --data-dir /var/run/data.etcd/ --listen-client-urls "http://0.0.0.0:2379" --advertise-client-urls "http://0.0.0.0:2379"
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

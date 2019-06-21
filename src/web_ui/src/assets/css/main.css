@@ -1,0 +1,388 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+.el-header,
+.el-footer {
+    color: #333;
+    line-height: 60px;
+}
+
+.el-header {
+    border-bottom: 1px solid #c3cdd7;
+}
+
+.el-footer {
+    background-color: #fff;
+    border-top: 1px solid #c3cdd7;
+}
+
+.el-aside {
+    background-color: #182132;
+    color: #fff;
+    height: 100vh;
+}
+
+.el-main {
+    background-color: #fff;
+    color: #000;
+}
+
+.main-nav-top {
+    width: 250px;
+    height: 59px;
+    cursor: pointer;
+}
+
+.main-nav {
+    width: 250px;
+    height: calc(100vh - 60px);
+    border-top: 1px #333 solid;
+}
+
+.main-nav-top img {
+    height: 30px;
+    padding-top: 15px;
+    padding-left: 25px;
+}
+
+.main-nav-top div {
+    display: inline-block;
+    width: 180px;
+    height: 60px;
+    float: right;
+}
+
+.main-nav-top div span {
+    line-height: 60px;
+    font-size: 18px;
+    color: #a1a1a1;
+    font-weight: 700;
+}
+
+.el-menu {
+    border-right: 0;
+}
+
+.route_top_info {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.route_top_info_separator {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.beluga-config-project-main {
+    padding-top: 15px;
+}
+
+.beluga-config-namespace-main {
+    padding-top: 15px;
+}
+
+.el-card__body {
+    padding: 0;
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+.el-tabs {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+
+.cut-off-rule {
+    border-bottom: 1px #eee solid;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.config-top {
+    padding: 20px;
+}
+
+.config-top-left {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.config-top-right {
+    display: inline-block;
+    float: right;
+}
+
+.cell {
+    text-align: center;
+}
+
+#config-box-card {
+    height: calc(100vh - 164px);
+}
+
+.config-text .el-textarea__inner {
+    height: calc(100vh - 320px);
+}
+
+.config-change_history {
+    height: calc(100vh - 320px);
+}
+
+.config-change_histore-project_name {
+    font-size: 18px;
+    color: #a1a1a1;
+    padding-left: 10px;
+}
+
+.config-change_histore-date {
+    font-size: 18px;
+    color: #a1a1a1;
+    float: right;
+    padding-right: 10px;
+}
+
+.el-scrollbar__wrap {
+    overflow-x: hidden;
+}
+
+.config-rollback .el-dialog__footer {
+    text-align: end;
+}
+
+.config-waring {
+    border: red 1px solid;
+    margin-bottom: 10px;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    color: #8a6d3b;
+    padding: 10px;
+}
+
+a {
+    cursor: pointer;
+}
+
+.beluga-config-top .beluga-config-top-add {
+    display: inline-block;
+}
+
+.beluga-config-top .beluga-config-search {
+    width: 20vw;
+    float: right;
+}
+
+.beluga-config-project-main {
+    padding-top: 15px;
+}
+
+.beluga-page {
+    padding-top: 15px;
+    text-align: center;
+}
+
+#release-history-top-one {
+    width: 100%;
+}
+
+#release-history-top-one p {
+    text-align: center;
+    color: #797979;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+#release-history-top-two {
+    margin-bottom: 10px;
+}
+
+.release-history-top-two {
+    display: inline-block;
+}
+
+#release-history-main {
+    height: calc(100vh - 268px);
+}
+
+#release-history-main-left {
+    width: 350px;
+    height: calc(100vh - 264px);
+    float: left;
+}
+
+#release-history-main-right {
+    height: calc(100vh - 268px);
+    float: left;
+    left: 350px;
+    width: calc(100% - 354px);
+}
+
+#release-history-main-right-top {
+    height: 80px;
+    color: #797979;
+    background: #f5f5f5;
+    padding: 0 10px;
+}
+
+#release-history-main-right-main {
+    height: calc(100% - 80px);
+    padding: 0 10px;
+}
+
+#release-history-info {
+    line-height: 40px;
+}
+
+#release-history-info span {
+    font-size: 16px;
+}
+
+#release-history-date {
+    float: right;
+}
+
+#release-history-config {
+    float: right;
+}
+
+#release-history-top-two-left {
+    position: fixed;
+    left: 0;
+    padding-left: 290px;
+}
+
+#release-history-top-two-right {
+    position: fixed;
+    padding-right: 40px;
+    top: 145px;
+    right: 0;
+}
+
+#release-history-top-two-left span {
+    padding: 1px 5px;
+    color: #fff;
+    font-size: 12px;
+}
+
+.release-history-main-left-list {
+    line-height: 50px;
+    padding-left: 20px;
+    border-bottom: 1px #eff2f7 solid;
+    cursor: pointer;
+}
+
+.release-history-main-left-list div {
+    display: inline-block;
+}
+
+.release-history-main-left-list .release-history-main-left-list-name {
+    width: 90px;
+}
+
+.release-history-main-left-list .release-history-main-left-list-type {
+    width: 70px;
+}
+
+.release-history-main-left-list .release-history-main-left-list-date {
+    width: 150px;
+}
+
+.release-history-main-left-list .release-history-main-left-list-mark {
+    width: 6px;
+    height: 50px;
+    float: right;
+    top: 0;
+    background: #000;
+}
+
+#release-history-main-right-main-msg {
+    font-size: 18px;
+    color: #797979;
+    padding: 10px 0;
+}
+
+.jsoneditor-poweredBy {
+    display: none;
+}
+
+div .jsoneditor {
+    height: 500px;
+    border: 1px solid #dcdfe6
+}
+
+div .jsoneditor-menu {
+    background-color: #409eff;
+    border-bottom: #409eff
+}
+
+div.jsoneditor-contextmenu ul li button.jsoneditor-selected,
+div.jsoneditor-contextmenu ul li button.jsoneditor-selected:hover,
+div.jsoneditor-contextmenu ul li button.jsoneditor-selected:focus {
+    color: white;
+    background-color: #409eff;
+}
+
+div .jsoneditor-modes {
+    display: none;
+}
+
+#user-info {
+    display: inline;
+    line-height: 57px;
+    float: right;
+    margin-right: 20px;
+}
+
+.el-dropdown-link {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.el-icon-arrow-down {
+    font-size: 12px;
+}
+
+#user-info-form {
+    line-height: 300px;
+    text-align: center;
+    padding-top: 100px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.user-settings {
+    display: inline-block;
+    height: calc(100vh - 237px);
+}
+
+#user-setting-menu {
+    width: 260px;
+}
+#user-setting-menu div{
+    border-bottom: 1px solid #eff2f7;
+    line-height: 40px;
+    text-align: center;
+    border-right: 1px solid #eff2f7;
+    cursor: pointer;
+}
+#user-setting-info{
+    width: calc(100vw - 553px);
+    border-top: 1px #eff2f7 solid;
+    border-left: 1px #eff2f7 solid;
+    float: right;
+}
+
+#user-settings-top{
+    line-height: 70px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    /* border-bottom: 1px #c3cdd7 solid; */
+}
+.user-settings-activity{
+    background: #f5f5f5;
+    font-weight: 600;
+}

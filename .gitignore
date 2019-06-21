@@ -1,12 +1,12 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+.DS_Store
 
-# Test binary, build with `go test -c`
-*.test
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+bin/
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+Gopkg.lock
+vendor/
