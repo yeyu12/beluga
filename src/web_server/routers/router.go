@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"github.com/astaxie/beego"
 	"beluga/src/web_server/controllers"
+	"github.com/astaxie/beego"
 )
 
 func init() {
@@ -51,6 +51,19 @@ func init() {
 	beego.Router("/getNodeList", &controllers.ConfigNodeController{}, "*:GetNodeList")
 	beego.Router("/delNode", &controllers.ConfigNodeController{}, "*:DelNode")
 	beego.Router("/editNode", &controllers.ConfigNodeController{}, "*:EditNode")
+
+	// 定时任务
+	beego.Router("/addTask", &controllers.TaskController{}, "*:Add")
+	beego.Router("/editTask", &controllers.TaskController{}, "*:Edit")
+	beego.Router("/getTaskList", &controllers.TaskController{}, "*:List")
+	beego.Router("/taskRunOrStop", &controllers.TaskController{}, "*:RunOrStop")
+	beego.Router("/taskDel", &controllers.TaskController{}, "*:Del")
+	beego.Router("/getTaskIdToInfo", &controllers.TaskController{}, "*:GetTaskIdToInfo")
+	beego.Router("/taskKill", &controllers.TaskController{}, "*:Kill")
+	beego.Router("/taskNodeList", &controllers.TaskNodeController{}, "*:GetNodeList")
+	beego.Router("/taskNodeDel", &controllers.TaskNodeController{}, "*:Del")
+	beego.Router("/subtasksList", &controllers.TaskController{}, "*:SubtasksList")
+	beego.Router("/taskLogList", &controllers.TaskLogController{}, "*:List")
 
 	// etcd
 	beego.Router("/getEtcdIpList", &controllers.EtcdController{}, "*:GetEtcdNode")

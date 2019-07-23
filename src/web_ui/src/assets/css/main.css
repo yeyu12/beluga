@@ -298,7 +298,7 @@ a {
     background: #000;
 }
 
-#release-history-main-right-main-msg {
+.release-history-main-right-main-msg {
     font-size: 18px;
     color: #797979;
     padding: 10px 0;
@@ -361,28 +361,46 @@ div .jsoneditor-modes {
 #user-setting-menu {
     width: 260px;
 }
-#user-setting-menu div{
+
+#user-setting-menu div {
     border-bottom: 1px solid #eff2f7;
     line-height: 40px;
     text-align: center;
     border-right: 1px solid #eff2f7;
     cursor: pointer;
 }
-#user-setting-info{
+
+#user-setting-info {
     width: calc(100vw - 553px);
     border-top: 1px #eff2f7 solid;
     border-left: 1px #eff2f7 solid;
     float: right;
 }
 
-#user-settings-top{
+#user-settings-top {
     line-height: 70px;
     text-align: center;
     font-size: 20px;
     font-weight: bold;
-    /* border-bottom: 1px #c3cdd7 solid; */
 }
-.user-settings-activity{
+
+.user-settings-activity {
     background: #f5f5f5;
     font-weight: 600;
+}
+
+.el-select-dropdown__list {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.el-dialog__body .el-tabs{
+    padding: 0;
+}
+
+.input-with-select .el-select .el-input {
+    width: 130px;
+}
+.input-with-select .el-input-group__prepend {
+    background-color: #fff;
 }

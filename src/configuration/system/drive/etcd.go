@@ -2,32 +2,14 @@ package drive
 
 import (
 	"beluga/src/beluga/configuration_constant"
+	"beluga/src/beluga/drive"
 	"beluga/src/beluga/library"
 	"context"
 	"github.com/coreos/etcd/clientv3"
 	"github.com/coreos/etcd/mvcc/mvccpb"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	"os"
-	"strings"
 )
-
-type Etcd struct {
-}
-
-func InitEtcd() {
-	cfg := G_conf.Cfg
-	ip := cfg.Section("edit_server").Key("ip").String()
-	timeout, _ := cfg.Section("edit_server").Key("timeout").Int()
-
-	etcd_host := strings.Split(ip, ";")
-
-	if err := library.InitRegister(etcd_host, timeout); err != nil {
-		Notices(logrus.Fields{}, errors.Wrap(err, "etcd链接失败"))
-		os.Exit(0)
-		return
-	}
-}
 
 // 监听节点配置修改（中心管理后台中的，节点管理）
 func WatchNode() {
@@ -37,7 +19,7 @@ func WatchNode() {
 	go func() {
 		for v := range watch_resp_chan {
 			if v.Err() != nil {
-				Err(logrus.Fields{}, errors.Wrap(v.Err(), "节点配置监听失败"))
+				drive.Err(logrus.Fields{}, errors.Wrap(v.Err(), "节点配置监听失败"))
 			}
 			for _, resp := range v.Events {
 				switch resp.Type {
@@ -61,7 +43,7 @@ func WatchConfigurationReleaseToSync()  {
 	go func() {
 		for v := range watch_resp_chan {
 			if v.Err() != nil {
-				Err(logrus.Fields{}, errors.Wrap(v.Err(), "发布同步配置监听失败"))
+				drive.Err(logrus.Fields{}, errors.Wrap(v.Err(), "发布同步配置监听失败"))
 			}
 			for _, resp := range v.Events {
 				switch resp.Type {
@@ -84,7 +66,7 @@ func WatchNodeConf()  {
 	go func() {
 		for v := range watch_resp_chan {
 			if v.Err() != nil {
-				Err(logrus.Fields{}, errors.Wrap(v.Err(), "节点配置修改监听失败"))
+				drive.Err(logrus.Fields{}, errors.Wrap(v.Err(), "节点配置修改监听失败"))
 			}
 			for _, resp := range v.Events {
 				switch resp.Type {

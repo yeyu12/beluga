@@ -50,6 +50,19 @@ let server = {
     config_node_del: "/delNode",
     config_node_etid: "/editNode",
 
+    // 定时任务
+    task_list: "/getTaskList",
+    task_add: "/addTask",
+    task_edit: "/editTask",
+    task_run_stop: "/taskRunOrStop",
+    task_del: "/taskDel",
+    task_id_info: "/getTaskIdToInfo",
+    task_kill: "/taskKill",
+    task_node_list: "/taskNodeList",
+    task_node_del: "/taskNodeDel",
+    subtasks_list: "/subtasksList",
+    task_log_list: "/taskLogList",
+
     // 系统
     // 系统用户
     user_list: '/getUserList',

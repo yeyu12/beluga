@@ -1,19 +1,19 @@
 package controller
 
 import (
-	"net/http"
-	"encoding/json"
-	"github.com/pkg/errors"
-	"github.com/jinzhu/gorm"
-	goredis "github.com/go-redis/redis"
-	"beluga/src/configuration/system/drive"
+	drive2 "beluga/src/beluga/drive"
 	"beluga/src/beluga/library"
+	"encoding/json"
+	goredis "github.com/go-redis/redis"
+	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
+	"net/http"
 )
 
 type Controller struct {
-	Conf    *drive.Config   // 配置
+	Conf    *drive2.Config  // 配置
 	Redis   *goredis.Client // redis链接
-	Monitor *drive.Monitor  // 监控数据
+	Monitor *drive2.Monitor // 监控数据
 	Writer  http.ResponseWriter
 	Request *http.Request
 	Mysql   *gorm.DB // mysql链接
@@ -64,7 +64,7 @@ func (c *Controller) Json(code int, errOk string, msg string, data ...interface{
 
 	res_json, err := json.Marshal(res)
 	if err != nil {
-		drive.Notices(res, errors.Wrap(err, "数据返回失败"))
+		drive2.Notices(res, errors.Wrap(err, "数据返回失败"))
 		http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
 
 		return

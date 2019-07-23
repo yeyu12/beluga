@@ -76,3 +76,7 @@ ignored = [
 [[constraint]]
   name = "github.com/urfave/cli"
   version = "1.20.0"
+
+[[constraint]]
+  name = "github.com/gorhill/cronexpr"
+  version = "1.0.0"

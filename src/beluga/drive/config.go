@@ -10,19 +10,14 @@ type Config struct {
 	Cfg *ini.File
 }
 
-const (
-	// 配置文件名
-	CONFIG_FILE_NAME = "configuration_node.ini"
+var (
+	CONFIG_DIR = ""
+	CONFIG_FILENAME = ""
 )
-
-// 配置目录所在位置
-var CONFIG_DIR = "./config/"
-var config_file_path string
 
 
 func InitConfig() {
-	config_file_path = CONFIG_DIR + CONFIG_FILE_NAME
-	cfg, err := ini.Load(config_file_path)
+	cfg, err := ini.Load(CONFIG_DIR + CONFIG_FILENAME)
 
 	if err != nil {
 		log.Fatal(errors.Wrap(err, "配置文件读取错误"))

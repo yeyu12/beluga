@@ -1,50 +1,24 @@
 package helpers
 
 import (
-	"path/filepath"
-	"os"
-	"log"
-	"strings"
-	"strconv"
-	"io/ioutil"
-	"net"
-	"runtime"
 	"github.com/urfave/cli"
+	"net"
+	"path"
+	"runtime"
 	"time"
 )
 
 // 获取当前目录
 func GetCurrentDirectory() string {
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))  //返回绝对路径  filepath.Dir(os.Args[0])去除最后一个元素的路径
-	if err != nil {
-		log.Fatal(err)
-	}
-	return strings.Replace(dir, "\\", "/", -1) //将\替换成/
-}
-
-// 获取配置文件目录
-func GetIniPath() string {
-	return GetCurrentDirectory() + "/config"
-}
-
-// 获取pid文件目录
-func GetPidPath() string {
-	return GetCurrentDirectory() + "/runtime/pid"
-}
-
-// pid写入文件
-func SavePidFile(filePath string, filename string) bool {
-	if filePath == ""{
-		filePath = GetPidPath() + "/"
-	}
-	pid_path := filePath +filename
-	pid := strconv.Itoa(os.Getpid())
-
-	if err := ioutil.WriteFile(pid_path, []byte(pid), 0644); err != nil {
-		return false
+	_, filename, _, ok := runtime.Caller(1)
+	var cwdPath string
+	if ok {
+		cwdPath = path.Join(path.Dir(filename), "")
+	}  else  {
+		cwdPath = "./"
 	}
 
-	return true
+	return cwdPath
 }
 
 // 获取本机IP

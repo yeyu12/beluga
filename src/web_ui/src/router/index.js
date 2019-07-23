@@ -1,21 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/login/login'
-import Home from '@/components/home/main'
-import Indexs from '@/components/index/index'
-import Configuration from '@/components/configuration/configuration'
-import Quque from '@/components/quque/quque'
-import Crontab from '@/components/crontab/crontab'
-import Namespace from '@/components/configuration/namespace'
-import Config from '@/components/configuration/config'
+import Login from '@/components/login/login';
+import Home from '@/components/home/main';
+import Indexs from '@/components/index/index';
+import Configuration from '@/components/configuration/configuration';
+import Quque from '@/components/quque/quque';
+import Task from '@/components/task/task';
+import TaskAdd from '@/components/task/add';
+import TaskEdit from '@/components/task/edit';
+import TaskNode from '@/components/task/taskNode';
+import Namespace from '@/components/configuration/namespace';
+import Config from '@/components/configuration/config';
 import ReleaseHistory from '@/components/configuration/config/releaseHistory';
 import Etcd from '@/components/system/etcd/etcd';
 import NodeConf from '@/components/configuration/node_conf';
 import Node from '@/components/configuration/node';
-import System from '@/components/system/system'
-import OperationLog from '@/components/system/operationLog'
-import Account from '@/components/account/index'
-import UserList from '@/components/system/user/userlist'
+import System from '@/components/system/system';
+import OperationLog from '@/components/system/operationLog';
+import Account from '@/components/account/index';
+import UserList from '@/components/system/user/userlist';
+import TaskLog from '@/components/task/taskLog';
 
 Vue.use(Router);
 
@@ -65,9 +69,33 @@ export default new Router({
                     },
                 },
                 {
-                    path: "/cron",
-                    name: "cron",
-                    component: Crontab,
+                    path: "/task",
+                    name: "task",
+                    component: Task,
+                    meta: {
+                        requireAuth: true,
+                    },
+                },
+                {
+                    path: "/taskAdd",
+                    name: "taskAdd",
+                    component: TaskAdd,
+                    meta: {
+                        requireAuth: true,
+                    },
+                },
+                {
+                    path: "/taskEdit/:task_id",
+                    name: "taskEdit",
+                    component: TaskEdit,
+                    meta: {
+                        requireAuth: true,
+                    },
+                },
+                {
+                    path: "/taskNode",
+                    name: "taskNode",
+                    component: TaskNode,
                     meta: {
                         requireAuth: true,
                     },
@@ -130,6 +158,14 @@ export default new Router({
                     path: "/user",
                     name: "user",
                     component: UserList,
+                    meta: {
+                        requireAuth: true,
+                    },
+                },
+                {
+                    path: "/taskLog/:task_id",
+                    name: "taskLog",
+                    component: TaskLog,
                     meta: {
                         requireAuth: true,
                     },

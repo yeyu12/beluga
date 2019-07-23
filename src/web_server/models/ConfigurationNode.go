@@ -28,7 +28,7 @@ func (m *ConfigurationNode) TableNamePrefix() string {
 	return helpers.GetTablePrefix() + "configuration_node"
 }
 
-// 获取项目列表
+// 获取节点列表
 func (m *ConfigurationNode) List(o orm.Ormer, page int, page_size int, search string) helpers.Page {
 	page_size_str := strconv.Itoa(page_size)
 
@@ -50,7 +50,7 @@ func (m *ConfigurationNode) List(o orm.Ormer, page int, page_size int, search st
 	var lists []orm.Params
 	o.Raw(sql).Values(&lists)
 
-	config_project_page_data := helpers.Page{
+	config_node_page_data := helpers.Page{
 		Total:     total,
 		TotalPage: math.Ceil(float64(total) / float64(page_size)),
 		PageSize:  page_size,
@@ -58,7 +58,7 @@ func (m *ConfigurationNode) List(o orm.Ormer, page int, page_size int, search st
 		List:      lists,
 	}
 
-	return config_project_page_data
+	return config_node_page_data
 }
 
 // ID获取数据
@@ -80,6 +80,21 @@ func (m *ConfigurationNode) Save(o orm.Ormer) (int64, error) {
 	}
 
 	return id, err
+}
+
+// 添加
+func (m *ConfigurationNode) Add(o orm.Ormer) (int64, error) {
+	id, err := o.Insert(m)
+
+	return id, err
+}
+
+// ip获取数据
+func (m *ConfigurationNode) IpFind(o orm.Ormer, ip string) ConfigurationNode {
+	var data ConfigurationNode
+	o.QueryTable(m.TableNamePrefix()).Filter("ip", ip).One(&data)
+
+	return data
 }
 
 // 修改

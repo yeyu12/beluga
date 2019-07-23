@@ -1,26 +1,27 @@
 package cmd
 
 import (
+	"beluga/src/beluga/configuration_constant"
+	"beluga/src/beluga/helpers"
+	"beluga/src/beluga/library"
+	"beluga/src/beluga/task_constant"
+	web_server_helpers "beluga/src/web_server/helpers"
+	"beluga/src/web_server/models"
 	_ "beluga/src/web_server/routers"
+	"encoding/json"
+	"fmt"
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
+	"github.com/coreos/etcd/clientv3"
+	"github.com/coreos/etcd/mvcc/mvccpb"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/urfave/cli"
-	"beluga/src/beluga/helpers"
-	"github.com/astaxie/beego"
-	"runtime"
-	"github.com/astaxie/beego/orm"
-	"encoding/json"
-	"beluga/src/beluga/library"
-	"beluga/src/web_server/models"
-	"fmt"
-	"os"
-	"time"
-	"beluga/src/beluga/configuration_constant"
-	"strings"
 	"golang.org/x/net/context"
-	"github.com/coreos/etcd/mvcc/mvccpb"
-	"github.com/coreos/etcd/clientv3"
-	web_server_helpers "beluga/src/web_server/helpers"
+	"os"
+	"runtime"
 	"strconv"
+	"strings"
+	"time"
 )
 
 var Start = cli.Command{
@@ -44,7 +45,7 @@ func start(c *cli.Context) {
 			os.Exit(0)
 		}
 	} else {
-		if err := beego.LoadAppConfig("ini", "conf/" + config_name); err != nil {
+		if err := beego.LoadAppConfig("ini", "conf/"+config_name); err != nil {
 			beego.Error("当前路径下配置文件不存在")
 			os.Exit(0)
 		}
@@ -72,8 +73,15 @@ func Run() {
 	// 判断中心是否存在，如果存在则直接退出，不存在则继续走
 	isMaster()
 
-	// 监听服务
-	watchNode()
+	// TODO 如果断线的情况的话，定时检测
+	initConfNodeRegister()
+	initTaskNodeRegister()
+
+	// 监听配置节点
+	watchConfNode()
+
+	// 监听任务节点
+	watchTaskNode()
 
 	// 启动服务
 	beego.Run()
@@ -123,6 +131,9 @@ func registerModel() {
 		new(models.ConfigurationNodeConf),
 		new(models.ConfigurationNode),
 		new(models.OperationLog),
+		new(models.Task),
+		new(models.TaskNode),
+		new(models.TaskLog),
 	)
 }
 
@@ -191,8 +202,8 @@ func initEtcd() {
 	}
 }
 
-// 监控节点
-func watchNode() {
+// 监控配置节点
+func watchConfNode() {
 	key := configuration_constant.CONFIGURATION_REGISTER_DIR
 	watch_resp_chan := clientv3.NewWatcher(library.G_conf_etcd_client.Client).Watch(context.TODO(), key, clientv3.WithPrefix())
 
@@ -269,4 +280,118 @@ func watchNode() {
 			}
 		}
 	}()
+}
+
+// 监控任务节点
+func watchTaskNode() {
+	key := task_constant.TASK_REGISTER_DIR
+	watch_resp_chan := clientv3.NewWatcher(library.G_conf_etcd_client.Client).Watch(context.TODO(), key, clientv3.WithPrefix())
+
+	go func() {
+		for v := range watch_resp_chan {
+			if v.Err() != nil {
+				beego.Error(v.Err())
+			}
+
+			for _, resp := range v.Events {
+				key_spl := strings.Split(string(resp.Kv.Key), "/")
+				if len(key_spl) == 3 {
+					continue
+				}
+
+				switch resp.Type {
+				case mvccpb.PUT:
+					task_node_model := models.NewTaskNode()
+
+					task_node_model.Ip = key_spl[3]
+					task_node_model.CreateTime = time.Now()
+					task_node_model.IsDelete = 1
+
+					_, err := task_node_model.Save(orm.NewOrm())
+					if err != nil {
+						beego.Error("节点写入失败")
+					}
+
+					break
+				case mvccpb.DELETE:
+					task_node_model := models.NewTaskNode()
+
+					task_node_model.Ip = key_spl[3]
+					task_node_model.IsDelete = 0
+
+					task_node_model.Edit(orm.NewOrm(), map[string]interface{}{
+						"is_delete": 0,
+					})
+
+					break
+				}
+			}
+		}
+	}()
+}
+
+// 配置节点注册初始化
+func initConfNodeRegister() {
+	var page int = 1
+	configuration_node_model := models.NewConfigurationNode()
+
+	for {
+		config_node_list := configuration_node_model.List(orm.NewOrm(), page, 10, "")
+
+		if len(config_node_list.List.([]orm.Params)) == 0 {
+			break
+		}
+
+		for _, val := range config_node_list.List.([]orm.Params) {
+			configuration_node_model.Ip = val["ip"].(string)
+			key := configuration_constant.CONFIGURATION_REGISTER_DIR + val["ip"].(string)
+			get_res, err := library.G_conf_etcd_client.Kv.Get(context.TODO(), key)
+			if err != nil {
+				beego.Error("节点数据初始化失败", err)
+			}
+
+			if get_res.Kvs == nil {
+				configuration_node_model.Edit(orm.NewOrm(), map[string]interface{}{"is_delete": 0})
+			} else {
+				for _ = range get_res.Kvs {
+					configuration_node_model.Edit(orm.NewOrm(), map[string]interface{}{"is_delete": 1})
+				}
+			}
+		}
+
+		page++
+	}
+}
+
+// 任务节点注册初始化
+func initTaskNodeRegister() {
+	var page int = 1
+	task_node_model := models.NewTaskNode()
+
+	for {
+		config_node_list := task_node_model.List(orm.NewOrm(), page, 10, "")
+
+		if len(config_node_list.List.([]orm.Params)) == 0 {
+			break
+		}
+
+		for _, val := range config_node_list.List.([]orm.Params) {
+			task_node_model.Ip = val["ip"].(string)
+			key := task_constant.TASK_REGISTER_DIR + val["ip"].(string)
+			get_res, err := library.G_conf_etcd_client.Kv.Get(context.TODO(), key)
+			if err != nil {
+				beego.Error("节点数据初始化失败", err)
+			}
+
+			if get_res.Kvs == nil {
+				task_node_model.Edit(orm.NewOrm(), map[string]interface{}{"is_delete": 0})
+			} else {
+				for _ = range get_res.Kvs {
+					task_node_model.Edit(orm.NewOrm(), map[string]interface{}{"is_delete": 1})
+				}
+			}
+		}
+
+		page++
+	}
 }

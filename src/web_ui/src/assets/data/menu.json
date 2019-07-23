@@ -18,19 +18,14 @@
         }]
     },
     {
-        "icon": "iconfont el-beluga-duilie",
-        "name": "队列",
-        "data": [{
-            "name": "首页",
-            "index": "/quque"
-        }]
-    },
-    {
         "icon": "iconfont el-beluga-timing",
         "name": "定时任务",
         "data": [{
-            "name": "首页",
-            "index": "/cron"
+            "name": "任务",
+            "index": "/task"
+        }, {
+            "name": "任务节点",
+            "index": "/taskNode"
         }]
     },
     {
@@ -48,7 +43,7 @@
         }, {
             "name": "系统信息",
             "index": "/sys"
-        },{
+        }, {
             "name": "操作记录",
             "index": "/operationLog"
         }]

@@ -2,17 +2,18 @@ package drive
 
 import (
 	"beluga/src/beluga/configuration_constant"
+	"beluga/src/beluga/drive"
 	"beluga/src/beluga/library"
 	"beluga/src/configuration/system/langurage"
 	"context"
+	"encoding/json"
+	"fmt"
 	"github.com/coreos/etcd/clientv3"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
-	"strings"
-	"encoding/json"
 	"strconv"
-	"fmt"
+	"strings"
 )
 
 //{
@@ -34,7 +35,7 @@ func InitNodeConf() {
 	resp, err := library.G_conf_etcd_client.Kv.Get(context.TODO(), key)
 
 	if err != nil {
-		Err(logrus.Fields{}, errors.Wrap(err, "配置初始化失败！"))
+		drive.Err(logrus.Fields{}, errors.Wrap(err, "配置初始化失败！"))
 	}
 
 	for _, v := range resp.Kvs {
@@ -43,7 +44,7 @@ func InitNodeConf() {
 
 		for _, val := range node_conf {
 			for _, v := range val.Namespace {
-				G_node_conf[val.Appid+"_"+v.Name] = v.Path
+				drive.G_node_conf[val.Appid+"_"+v.Name] = v.Path
 				setFileWrite(val.Appid, v, SetKeyToJson(getConfMysql(val.Appid, v.Name)))
 			}
 		}
@@ -57,7 +58,7 @@ func watchNode(event *clientv3.Event) {
 
 	for _, val := range node_conf {
 		for _, v := range val.Namespace {
-			G_node_conf[val.Appid+"_"+v.Name] = v.Path
+			drive.G_node_conf[val.Appid+"_"+v.Name] = v.Path
 			setFileWrite(val.Appid, v, SetKeyToJson(getConfMysql(val.Appid, v.Name)))
 		}
 	}
@@ -79,7 +80,7 @@ func watchNodeConf(event *clientv3.Event) {
 		Path: string(event.Kv.Value),
 	}
 
-	G_node_conf[appid+"_"+namespace] = fileinfo.Path
+	drive.G_node_conf[appid+"_"+namespace] = fileinfo.Path
 	setFileWrite(appid, fileinfo, SetKeyToJson(getConfMysql(appid, namespace)))
 
 	// 删除etcd中的数据
@@ -91,7 +92,7 @@ func watchConfigurationSync(event *clientv3.Event) {
 	node_conf_temp := strings.Split(string(event.Kv.Key), "/")
 	appid_namespace := strings.Split(node_conf_temp[3], "_")
 
-	if G_node_conf[node_conf_temp[3]] == "" {
+	if drive.G_node_conf[node_conf_temp[3]] == "" {
 		return
 	}
 
@@ -99,16 +100,16 @@ func watchConfigurationSync(event *clientv3.Event) {
 	namespace := strings.Replace(strings.Trim(fmt.Sprint(appid_namespace[1:]), "[]"), " ", "_", -1)
 	fileinfo := configuration_constant.NodeConfNamespace{
 		Name: namespace,
-		Path: G_node_conf[node_conf_temp[3]],
+		Path: drive.G_node_conf[node_conf_temp[3]],
 	}
-	G_node_conf[appid+"_"+namespace] = fileinfo.Path
+	drive.G_node_conf[appid+"_"+namespace] = fileinfo.Path
 
 	setFileWrite(appid, fileinfo, SetKeyToJson(getConfMysql(appid, namespace)))
 }
 
 // 获取配置
 func getConfMysql(appid, namespace string) []Configuration {
-	db := G_mysql.New()
+	db := drive.G_mysql.New()
 	var conf []Configuration
 
 	db.Table("beluga_configuration").Select("`key`,`val`").Where("`appid`=? and `namespace_name`=?", appid, namespace).Find(&conf)
@@ -126,18 +127,18 @@ func setFileWrite(appid string, fileinfo configuration_constant.NodeConfNamespac
 	node_conf_type := strings.ToLower(file_to_type[0])
 
 	switch node_conf_type {
-	case NODE_CONF_JSON_TYPE:
+	case drive.NODE_CONF_JSON_TYPE:
 		if ioutil.WriteFile(file_to_type[1], data_str, 0644) != nil {
-			Notices(logrus.Fields{}, "json文件写入失败")
+			drive.Notices(logrus.Fields{}, "json文件写入失败")
 		}
 		break
-	case NODE_CONF_PHP_TYPE:
+	case drive.NODE_CONF_PHP_TYPE:
 		mapToStr(data, "")
 		// 判断框架类型，保存为相应的结构
 		conf_php_str := langurage.StrToPhpFileFormat(file_to_type[2], conf_str, fileinfo.Name)
 
 		if ioutil.WriteFile(file_to_type[1], []byte(conf_php_str), 0644) != nil {
-			Notices(logrus.Fields{}, "php文件写入失败")
+			drive.Notices(logrus.Fields{}, "php文件写入失败")
 		}
 
 		conf_str = ""
@@ -147,7 +148,7 @@ func setFileWrite(appid string, fileinfo configuration_constant.NodeConfNamespac
 
 	// 直接写入到redis中，对外接口可直接放问
 	name := appid + "_" + fileinfo.Name + "_json"
-	G_redis.HSet(configuration_constant.CONFIGURATION_REDIS_KEY, name, data_str)
+	drive.G_redis.HSet(configuration_constant.CONFIGURATION_REDIS_KEY, name, data_str)
 }
 
 // json字符串转php字符串

@@ -1,17 +1,17 @@
 package cmd
 
 import (
-	"github.com/urfave/cli"
+	beluga_drive "beluga/src/beluga/drive"
 	"beluga/src/beluga/helpers"
-	"runtime"
-	"beluga/src/configuration/system/drive"
 	"beluga/src/configuration/system"
+	"github.com/urfave/cli"
+	"runtime"
 )
 
 var Start = cli.Command{
 	Name:        "start",
 	Usage:       "启动服务",
-	Description: "go-task服务启动",
+	Description: "中心配置服务启动",
 	Action:      start,
 	Flags: []cli.Flag{
 		helpers.StringFlag("configDir, c", "config/", "重定向配置文件路径"),
@@ -27,7 +27,8 @@ var (
 
 func start(c *cli.Context) {
 	if c.IsSet("configDir") {
-		drive.CONFIG_DIR = c.String("configDir")
+		beluga_drive.CONFIG_DIR = c.String("configDir")
+		beluga_drive.CONFIG_FILENAME = "configuration_node.ini"
 	}
 	if c.IsSet("host") {
 		host = c.String("host")

@@ -1,8 +1,8 @@
 package drive
 
 import (
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-redis/redis"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
 

@@ -2,8 +2,8 @@ package drive
 
 import (
 	"github.com/go-redis/redis"
-	"github.com/sirupsen/logrus"
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 	"os"
 )
 

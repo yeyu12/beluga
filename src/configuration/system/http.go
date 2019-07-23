@@ -1,13 +1,13 @@
 package system
 
 import (
-	"net/http"
+	drive2 "beluga/src/beluga/drive"
 	"fmt"
-	"beluga/src/configuration/system/drive"
+	"net/http"
 )
 
 func HttpServer(host, port string) {
-	cfg := drive.G_conf.Cfg
+	cfg := drive2.G_conf.Cfg
 
 	if host == "" {
 		host = cfg.Section("configuration_node").Key("host").String()

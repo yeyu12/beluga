@@ -1,32 +1,39 @@
 package system
 
 import (
-	"beluga/src/configuration/system/drive"
-	"beluga/src/beluga/library"
 	"beluga/src/beluga/configuration_constant"
+	beluga_drive "beluga/src/beluga/drive"
+	"beluga/src/beluga/helpers"
+	"beluga/src/beluga/library"
+	"beluga/src/configuration/system/drive"
 )
 
 // 初始化各种服务
 func initService() {
-	drive.G_node_conf = make(map[string]string)
+	beluga_drive.G_node_conf = make(map[string]string)
+
+	if beluga_drive.CONFIG_DIR == "" && beluga_drive.CONFIG_FILENAME == "" {
+		beluga_drive.CONFIG_DIR = helpers.GetCurrentDirectory() + "/../config/"
+		beluga_drive.CONFIG_FILENAME = "configuration_node.ini"
+	}
 
 	// 配置
-	drive.InitConfig()
+	beluga_drive.InitConfig()
 
-	// 初始化日子还
-	drive.InitLog()
+	// 日志初始化
+	beluga_drive.InitLog(helpers.GetCurrentDirectory() + "/../")
 
 	// redis
-	drive.InitRedis()
+	beluga_drive.InitRedis()
 
 	// 系统信息
-	drive.InitMonitor()
+	beluga_drive.InitMonitor()
 
 	// 数据库
-	drive.InitMysql()
+	beluga_drive.InitMysql()
 
 	// etcd
-	drive.InitEtcd()
+	beluga_drive.InitEtcd()
 
 	// 服务注册
 	go library.ServerRegister(configuration_constant.CONFIGURATION_REGISTER_DIR, "")

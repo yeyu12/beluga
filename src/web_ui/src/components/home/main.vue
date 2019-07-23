@@ -59,7 +59,7 @@
         data() {
             return {
                 isRouterAlive: true,
-                beluga_logo: require("@/assets/img/logo.png"),
+                beluga_logo: require("@/assets/icon/logo.png"),
                 beluga_name: "白鲸管理平台",
                 index: "",
                 beluag_top_info: "",

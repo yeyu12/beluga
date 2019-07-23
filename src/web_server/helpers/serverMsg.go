@@ -50,4 +50,15 @@ const (
 	// 用户相关
 	USERNAME_EXISTENCE_MSG      = "用户名已存在"
 	USERNAME_TO_PASSWD_FAIL_MSG = "用户名或密码不能为空"
+
+	// 任务相关
+	TASK_CRONTAB_ANALYSIS_FAIL_MSG = "cron表达式解析失败"
+	TASK_NAME_FAIL_MSG             = "任务名不能为空"
+	TASK_CMD_FAIL_MSG              = "任务命令不能为空"
+	TASK_OVERTIME_FAIL_MSG         = "任务超时时间非法，不能小于0与不能大于86400秒"
+	TASK_FAIL_NUM_MSG              = "任务失败重试次数不能小于0"
+	TASK_FAIL_RETRY_TIME_MSG       = "任务失败重试间隔时间不能小于0"
+	TASK_NOTICE_FAIL_MSG           = "任务通知类型非法"
+	TASK_KEYWORD_NOTICE_FAIL_MSG   = "任务执行输出关键字不能为空"
+	TASK_NODE_ONLINE_DEL_FATL_MSG  = "节点在线禁止删除"
 )

@@ -1,18 +1,18 @@
 package system
 
 import (
-	"net/http"
+	drive2 "beluga/src/beluga/drive"
 	"beluga/src/configuration/controller"
-	"beluga/src/configuration/system/drive"
+	"net/http"
 )
 
 func syncConfig(writer http.ResponseWriter, request *http.Request) {
 	con := new(controller.ConfigController)
 
-	con.Conf = drive.G_conf
-	con.Monitor = drive.G_monitor
-	con.Redis = drive.G_redis
-	con.Mysql = drive.G_mysql
+	con.Conf = drive2.G_conf
+	con.Monitor = drive2.G_monitor
+	con.Redis = drive2.G_redis
+	con.Mysql = drive2.G_mysql
 
 	defer func() {
 		if err := recover(); err != nil {
@@ -29,10 +29,10 @@ func syncConfig(writer http.ResponseWriter, request *http.Request) {
 func getConfig(writer http.ResponseWriter, request *http.Request) {
 	con := new(controller.ConfigController)
 
-	con.Conf = drive.G_conf
-	con.Monitor = drive.G_monitor
-	con.Redis = drive.G_redis
-	con.Mysql = drive.G_mysql
+	con.Conf = drive2.G_conf
+	con.Monitor = drive2.G_monitor
+	con.Redis = drive2.G_redis
+	con.Mysql = drive2.G_mysql
 	//con.Etcd = drive.G_etcd
 
 	defer func() {

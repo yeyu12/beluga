@@ -1,9 +1,3 @@
-/*
- * @Author: mikey.zhaopeng 
- * @Date: 2019-04-18 15:28:07 
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2019-06-12 18:12:49
- */
 <template>
     <div>
         <div class="beluga-config-top">

@@ -35,7 +35,7 @@
                 </div>
                 <div id="release-history-main-right-main">
                     <template v-if="isShow == 1">
-                        <div id="release-history-main-right-main-msg">
+                        <div class="release-history-main-right-main-msg">
                             变更的配置
                         </div>
                         <!-- 表格展示数据 -->
@@ -54,7 +54,7 @@
                         </el-table>
                     </template>
                     <template v-else-if="isShow == 2">
-                        <div id="release-history-main-right-main-msg">
+                        <div class="release-history-main-right-main-msg">
                             全部配置
                         </div>
                         <!-- 表格展示数据 -->

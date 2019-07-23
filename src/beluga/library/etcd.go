@@ -1,10 +1,10 @@
 package library
 
 import (
-	"github.com/coreos/etcd/clientv3"
-	"time"
 	"beluga/src/beluga/helpers"
 	"context"
+	"github.com/coreos/etcd/clientv3"
+	"time"
 )
 
 type EtcdClient struct {

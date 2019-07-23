@@ -2,10 +2,11 @@ package drive
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
+	"time"
 )
 
 type Mysql struct {
@@ -41,4 +42,16 @@ func InitMysql() {
 	}
 
 	G_mysql = db
+
+	//go dbHear()
+}
+
+func dbHear() {
+	for {
+		if G_mysql.DB().Ping() != nil {
+			InitMysql()
+		} else {
+			time.Sleep(2 * time.Minute)
+		}
+	}
 }

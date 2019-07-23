@@ -1,12 +1,13 @@
 GO_GET = go get -v -u
 GO_RELY_ON = dep ensure -v
-GO_BUILD = go build
+GO_BUILD = go build -gcflags="-l"
 NPM_BUILD = npm run build
 PWD_DIR = $(PWD)
 BIN_DIR = $(PWD_DIR)/bin
 SUB_DIR = src/web_ui \
 			src/web_server \
-			src/configuration/
+			src/configuration \
+            src/task/
 
 GOLANG_X = $(GOPATH)/src/golang.org/x
 GOLANG_GITHUB = $(GOPATH)/src/github.com
@@ -55,8 +56,6 @@ ifeq "$(wildcard $(GOLANG_ETCD))" ""
 	$(GIT_CLONE) https://github.com/etcd-io/etcd.git $(GOLANG_GITHUB)/coreos/etcd
 endif
 
-	$(GO_RELY_ON)
-
 # 判断grpc是否在vendor目录下面,这里要整理下.
 ifeq "$(wildcard $(GOLANG_PROJECT_GRPC))" ""
 ifeq "$(wildcard $(GOPATH)/src/google.golang.org/grpc)" ""
@@ -71,5 +70,4 @@ endif
 	cp -rf $(GOLANG_GRPC) $(GOLANG_PROJECT_GRPC)
 endif
 
-
-
+	$(GO_RELY_ON)

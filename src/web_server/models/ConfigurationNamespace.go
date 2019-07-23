@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/astaxie/beego"
 	"time"
 	"strconv"
 	"github.com/astaxie/beego/orm"
@@ -39,13 +40,14 @@ func (m *ConfigurationNamespace) List(o orm.Ormer, page int, page_size int, proj
 	total, _ := total_obj.Count()
 
 	offset := strconv.Itoa(((page - 1) * page_size))
-	sql := "select a.*,b.nickname,c.project_name from `" + m.TableNamePrefix() + "` a left join `" + account_table + "` b on b.id and a.account_id"
+	sql := "select a.*,b.nickname,c.project_name from `" + m.TableNamePrefix() + "` a left join `" + account_table + "` b on b.id=a.account_id"
 	sql += " left join `" + config_project_table + "` c on c.id=a.project_id"
 	sql += " where `a`.`project_id`=" + strconv.Itoa(project_id)
 	if search != "" {
 		sql += " and `a`.`namespace_name` like '%" + search + "%' "
 	}
 	sql += " order by `a`.`id` desc limit " + offset + "," + page_size_str
+	beego.Error(sql)
 
 	var lists []orm.Params
 	o.Raw(sql).Values(&lists)

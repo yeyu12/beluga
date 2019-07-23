@@ -1,14 +1,14 @@
 package drive
 
 import (
-	"github.com/shirou/gopsutil/cpu"
-	"github.com/sirupsen/logrus"
 	"github.com/pkg/errors"
-	"github.com/shirou/gopsutil/mem"
+	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
+	"github.com/shirou/gopsutil/mem"
 	"github.com/shirou/gopsutil/net"
-	"time"
+	"github.com/sirupsen/logrus"
 	"runtime"
+	"time"
 )
 
 type Monitor struct {
@@ -23,13 +23,11 @@ type monitorInfo struct {
 	GoRuntime int
 }
 
-
-
 func InitMonitor() {
 	resources_obj := new(Monitor)
 	resources_obj.Info = new(monitorInfo)
 	cfg := G_conf.Cfg
-	monitor_time, err := cfg.Section("configuration_node").Key("monitor_time").Int64()
+	monitor_time, err := cfg.Section("").Key("monitor_time").Int64()
 
 	if err != nil {
 		Notices(logrus.Fields{}, errors.Wrapf(err, "监控间隔时间配置获取错误"))
